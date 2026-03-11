@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dominic Munter – Portfolio</title>
+  <meta name="description" content="Portfolio von Dominic Munter – Informatiker im 2. Lehrjahr bei Swisscom. Angular, TypeScript, Python und mehr." />
+  <meta property="og:title" content="Dominic Munter – Portfolio" />
+  <meta property="og:description" content="Angehender Informatiker im 2. Lehrjahr bei Swisscom. SPT-IL Team, Angular, TypeScript, Python." />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -105,8 +109,10 @@
       transition: background .2s, color .2s;
     }
     .nav-links a:hover { background: var(--primary); color: #fff; }
+    .nav-links a.active { background: var(--primary); color: #fff; }
     body.dark .nav-links a { color: #f0f0f0; }
     body.dark .nav-links a:hover { color: #fff; }
+    body.dark .nav-links a.active { color: #fff; }
 
     .burger {
       display: none;
@@ -266,10 +272,10 @@
       height: 100%;
       width: 0%;
       border-radius: 10px;
-      animation: grow 1.2s ease-in-out forwards;
-      animation-delay: .3s;
+      animation: none;
       --width: 0%;
     }
+    .skills-animated .fill { animation: grow 1.2s ease-in-out forwards; animation-delay: .3s; }
     @keyframes grow { to { width: var(--width); } }
 
     /* ──────────────────────────────────────────
@@ -547,13 +553,14 @@
       <h1 class="hero-title">Ich bin <span class="typing" id="typing-el"></span></h1>
       <p class="hero-subtitle">Frontend- &amp; Backend-Entwickler</p>
       <a href="#ueber" class="hero-button">Mehr erfahren</a>
+      <a href="https://github.com/Dms-1708" target="_blank" rel="noopener" class="hero-button" style="margin-left:.8rem;background:transparent;border:2px solid rgba(255,255,255,.7);color:#fff;">GitHub ↗</a>
     </div>
   </section>
 
   <!-- Über mich -->
   <section class="content fade-in" id="ueber">
     <div class="container ueber-container">
-      <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Dominic" class="profilbild" />
+      <img src="https://github.com/Dms-1708.png" alt="Dominic" class="profilbild" />
       <div>
         <h2>Über mich</h2>
         <p>Ich bin Dominic Munter, angehender Informatiker im 2. Lehrjahr. Im SPT-IL Team arbeite ich mit Technologien wie Angular, Node.js und modernen Webtools und entwickle mit Leidenschaft Anwendungen, die funktionieren.</p>
@@ -569,6 +576,7 @@
         <li><span class="year">2024</span><p>Start bei Swisscom als Informatiker im 1. Lehrjahr</p></li>
         <li><span class="year">2024</span><p>Projekt: Galileo</p></li>
         <li><span class="year">2025</span><p>Software Entwicklung im SPT-IL Team</p></li>
+        <li><span class="year">2026</span><p>2. Lehrjahr – Weiterentwicklung im SPT-IL Team</p></li>
       </ul>
     </div>
   </section>
@@ -627,6 +635,17 @@
         </div>
 
         <div class="projekt-card">
+          <h3>🌐 Portfolio Website</h3>
+          <p>Diese Portfolio-Website – selbst entwickelt mit HTML, CSS und Vanilla JS. Dark Mode, Typing-Animation, Admin-Panel und Kontaktformular.</p>
+          <div class="tech-tags">
+            <span class="tag">HTML</span><span class="tag">CSS</span>
+            <span class="tag">JavaScript</span><span class="tag">EmailJS</span>
+          </div>
+          <p class="projekt-zeit">📅 2026 · Eigenprojekt</p>
+          <a href="https://github.com/Dms-1708/Portfolio" target="_blank" rel="noopener" class="projekt-link">Code auf GitHub ↗</a>
+        </div>
+
+        <div class="projekt-card">
           <h3>🛠️ SPT-IL</h3>
           <p>Mitarbeit im SPT-IL Team bei Swisscom mit Fokus auf Softwareentwicklung, Teamarbeit und praxisnahen Lösungen.</p>
           <div class="tech-tags">
@@ -666,6 +685,7 @@
     <p>© 2026 Dominic Munter</p>
     <div class="footer-links">
       <a href="https://github.com/Dms-1708" target="_blank" rel="noopener">GitHub</a>
+      <a href="#kontakt">Kontakt</a>
     </div>
   </footer>
 
@@ -750,6 +770,32 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // ── Skills animation on scroll ─────────────────────────────────────────
+    const skillsSection = document.getElementById('skills');
+    const skillsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('skills-animated');
+          skillsObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    if (skillsSection) skillsObserver.observe(skillsSection);
+
+    // ── Active nav highlight on scroll ────────────────────────────────────
+    const navSections = ['ueber','timeline','skills','projekte','kontakt'];
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      navSections.forEach(id => {
+        const sec = document.getElementById(id);
+        if (sec && window.scrollY >= sec.offsetTop - 120) current = id;
+      });
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    });
 
     // ── Typing animation ───────────────────────────────────────────────────
     const typingEl = document.getElementById('typing-el');
