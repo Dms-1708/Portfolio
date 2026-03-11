@@ -522,6 +522,102 @@
       transition: background .2s;
     }
     .adminLoginButton:hover { background: var(--accent); }
+
+    /* ── Demos ─────────────────────────────────────────────────────── */
+    .demos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+    }
+    .demo-card {
+      background: var(--bg);
+      border: 1.5px solid rgba(15,98,254,.15);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: .8rem;
+      transition: background .3s, border-color .3s;
+    }
+    body.dark .demo-card { background: #12151f; border-color: rgba(60,145,230,.2); }
+    .demo-card h3 { font-size: 1rem; font-weight: 700; color: var(--primary); }
+    .demo-card p.demo-desc { font-size: .88rem; color: #777; margin-bottom: .2rem; }
+    body.dark .demo-card p.demo-desc { color: #999; }
+    .demo-input {
+      padding: .6rem .9rem;
+      border-radius: 8px;
+      border: 1.5px solid #d0d7e3;
+      font-family: inherit;
+      font-size: .93rem;
+      background: var(--white);
+      color: var(--text);
+      flex: 1;
+    }
+    body.dark .demo-input { background: #1e2230; border-color: #3a3f4b; color: #e5e5e5; }
+    .demo-btn {
+      padding: .6rem 1.1rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .demo-btn:hover { background: var(--accent); transform: translateY(-1px); }
+    .demo-btn:active { transform: scale(.97); }
+    .demo-row { display: flex; gap: .5rem; align-items: center; }
+    .todo-list { list-style: none; display: flex; flex-direction: column; gap: .4rem; max-height: 180px; overflow-y: auto; }
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--white);
+      padding: .45rem .7rem;
+      border-radius: 7px;
+      font-size: .9rem;
+      animation: slideIn .2s ease;
+    }
+    body.dark .todo-item { background: #1c1f2c; }
+    @keyframes slideIn { from { opacity:0; transform:translateX(-8px); } to { opacity:1; transform:none; } }
+    .todo-item.done span { text-decoration: line-through; opacity: .5; }
+    .todo-item button {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: #f87171;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      padding: 0;
+      transition: transform .15s;
+    }
+    .todo-item button:hover { transform: scale(1.25); }
+    .todo-item input[type=checkbox] { accent-color: var(--primary); width:15px; height:15px; cursor:pointer; }
+    .demo-output {
+      background: var(--white);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      font-size: .92rem;
+      line-height: 1.6;
+      min-height: 3rem;
+      border: 1px solid rgba(0,0,0,.06);
+      color: var(--text);
+      transition: background .3s;
+    }
+    body.dark .demo-output { background: #1c1f2c; border-color: #2a2d3a; }
+    .color-box {
+      height: 60px;
+      border-radius: 10px;
+      transition: background-color .1s;
+      border: 1px solid rgba(0,0,0,.08);
+    }
+    .range-row { display: flex; flex-direction: column; gap: .4rem; }
+    .range-row label { font-size: .82rem; font-weight: 600; display: flex; justify-content: space-between; }
+    .range-row input[type=range] { width: 100%; accent-color: var(--primary); }
+    .hex-out { font-family: monospace; font-size: .95rem; font-weight: 700; color: var(--primary); text-align: center; letter-spacing: .05em; }
   </style>
 </head>
 <body>
@@ -538,6 +634,7 @@
           <li><a href="#ueber">Über mich</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#projekte">Projekte</a></li>
+          <li><a href="#demos">Demos</a></li>
           <li><a href="#kontakt">Kontakt</a></li>
         </ul>
         <button class="burger" id="burger" aria-label="Menü öffnen">
@@ -653,6 +750,52 @@
             <span class="tag">Python</span><span class="tag">GitLab</span>
           </div>
           <p class="projekt-zeit">📅 2025 · Teamprojekt</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Demos -->
+  <section class="content fade-in" id="demos">
+    <div class="container">
+      <h2>Was ich gelernt habe</h2>
+      <p style="color:#777;font-size:.95rem;margin-bottom:.5rem;">Kleine interaktive Demonstrationen aus meiner Ausbildung.</p>
+      <div class="demos-grid">
+
+        <!-- Demo 1: To-Do Liste -->
+        <div class="demo-card">
+          <h3>📝 JavaScript: To-Do Liste</h3>
+          <p class="demo-desc">DOM-Manipulation – Elemente erstellen, löschen, Status ändern.</p>
+          <div class="demo-row">
+            <input class="demo-input" id="todo-input" placeholder="Neue Aufgabe..." maxlength="60" />
+            <button class="demo-btn" onclick="addTodo()">+</button>
+          </div>
+          <ul class="todo-list" id="todo-list"></ul>
+        </div>
+
+        <!-- Demo 2: API Fetch -->
+        <div class="demo-card">
+          <h3>🌐 Fetch API: Programmer Joke</h3>
+          <p class="demo-desc">async/await + fetch – Daten von einer REST-API laden.</p>
+          <button class="demo-btn" id="joke-btn" onclick="fetchJoke()">Neuer Witz laden 🎲</button>
+          <div class="demo-output" id="joke-output" style="font-style:italic;">Klick den Button für einen Programmier-Witz!</div>
+        </div>
+
+        <!-- Demo 3: CSS Farbmixer -->
+        <div class="demo-card">
+          <h3>🎨 CSS: Echtzeit-Farbmixer</h3>
+          <p class="demo-desc">Event-Listener + CSS-Variablen – live RGB-Farbsteuerung.</p>
+          <div class="color-box" id="color-box"></div>
+          <div class="range-row">
+            <label>Rot <span id="r-val">128</span></label>
+            <input type="range" min="0" max="255" value="128" id="r-slider" oninput="updateColor()" />
+            <label>Grün <span id="g-val">80</span></label>
+            <input type="range" min="0" max="255" value="80" id="g-slider" oninput="updateColor()" />
+            <label>Blau <span id="b-val">220</span></label>
+            <input type="range" min="0" max="255" value="220" id="b-slider" oninput="updateColor()" />
+          </div>
+          <div class="hex-out" id="hex-out">#804FDC</div>
         </div>
 
       </div>
@@ -784,7 +927,7 @@
     if (skillsSection) skillsObserver.observe(skillsSection);
 
     // ── Active nav highlight on scroll ────────────────────────────────────
-    const navSections = ['ueber','timeline','skills','projekte','kontakt'];
+    const navSections = ['ueber','timeline','skills','projekte','demos','kontakt'];
     const navLinks = document.querySelectorAll('.nav-links a');
     window.addEventListener('scroll', () => {
       let current = '';
@@ -913,6 +1056,56 @@
       addLog(`ScrollY: ${window.scrollY}`);
       addLog(`User-Agent: ${navigator.userAgent.substring(0,60)}…`);
     });
+
+    // ── Demo: Todo List ───────────────────────────────────────────────────
+    const todoInput = document.getElementById('todo-input');
+    todoInput && todoInput.addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
+
+    function addTodo() {
+      const input = document.getElementById('todo-input');
+      const text = input.value.trim();
+      if (!text) return;
+      const list = document.getElementById('todo-list');
+      const li = document.createElement('li');
+      li.className = 'todo-item';
+      li.innerHTML = `<input type="checkbox" onchange="this.closest('li').classList.toggle('done',this.checked)" /><span>${text}</span><button title="Löschen" onclick="this.closest('li').remove()">✕</button>`;
+      list.prepend(li);
+      input.value = '';
+      input.focus();
+    }
+
+    // ── Demo: Fetch Joke ──────────────────────────────────────────────────
+    async function fetchJoke() {
+      const out = document.getElementById('joke-output');
+      const btn = document.getElementById('joke-btn');
+      out.textContent = '⏳ Lade Witz...';
+      btn.disabled = true;
+      try {
+        const r = await fetch('https://v2.jokeapi.dev/joke/Programming?type=single&lang=de', { headers: { Accept: 'application/json' } });
+        const data = await r.json();
+        out.textContent = data.joke || 'Kein Witz gefunden.';
+      } catch {
+        try {
+          const r2 = await fetch('https://v2.jokeapi.dev/joke/Programming?type=single');
+          const d2 = await r2.json();
+          out.textContent = d2.joke || 'Kein Witz gefunden.';
+        } catch { out.textContent = '❌ Fehler beim Laden – kein Internet?'; }
+      } finally { btn.disabled = false; }
+    }
+
+    // ── Demo: Color Mixer ─────────────────────────────────────────────────
+    function updateColor() {
+      const r = document.getElementById('r-slider').value;
+      const g = document.getElementById('g-slider').value;
+      const b = document.getElementById('b-slider').value;
+      document.getElementById('r-val').textContent = r;
+      document.getElementById('g-val').textContent = g;
+      document.getElementById('b-val').textContent = b;
+      const hex = '#' + [r,g,b].map(v => (+v).toString(16).padStart(2,'0')).join('').toUpperCase();
+      document.getElementById('color-box').style.backgroundColor = `rgb(${r},${g},${b})`;
+      document.getElementById('hex-out').textContent = hex;
+    }
+    updateColor();
 
     document.getElementById('btn-clear-logs').addEventListener('click', () => {
       document.getElementById('log-output').innerHTML = '';
