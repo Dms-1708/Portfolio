@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   navOpen = false;
   formSent = false;
   typingText = '';
-  private typingTexts = ['Informatiker im 1. Lehrjahr', 'Motiviert zu lernen', '17 Jahre alt'];
+  private typingTexts = ['Informatiker im 2. Lehrjahr', 'Motiviert zu lernen', '17 Jahre alt'];
   private i = 0;
   private j = 0;
   private isDeleting = false;
