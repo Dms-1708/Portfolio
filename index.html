@@ -618,6 +618,66 @@
     .range-row label { font-size: .82rem; font-weight: 600; display: flex; justify-content: space-between; }
     .range-row input[type=range] { width: 100%; accent-color: var(--primary); }
     .hex-out { font-family: monospace; font-size: .95rem; font-weight: 700; color: var(--primary); text-align: center; letter-spacing: .05em; }
+    .pw-out {
+      font-family: 'Courier New', monospace;
+      font-size: .95rem;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 10px;
+      padding: .85rem 1rem;
+      word-break: break-all;
+      color: var(--text);
+    }
+    body.dark .pw-out { background: #1c1f2c; border-color: #2a2d3a; }
+    .pw-opts { display: flex; flex-wrap: wrap; gap: .6rem 1rem; font-size: .85rem; }
+    .pw-opts label { display: flex; align-items: center; gap: .35rem; }
+    .copy-hint { font-size: .8rem; color: #4ade80; min-height: 1rem; }
+    .sort-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 100px;
+      background: linear-gradient(180deg, rgba(15,98,254,.06), transparent);
+      border-radius: 10px;
+      padding: .75rem .5rem;
+    }
+    .sort-bar {
+      flex: 1;
+      background: var(--primary);
+      border-radius: 8px 8px 0 0;
+      transition: height .2s ease, background-color .2s ease, transform .2s ease;
+    }
+    .sort-bar.comparing { background: #f97316; transform: translateY(-2px); }
+    .sort-bar.sorted { background: #4ade80; }
+    .sort-meta { font-size: .82rem; color: #777; min-height: 1rem; }
+    body.dark .sort-meta { color: #b4b4b4; }
+    .notes-list {
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+      max-height: 170px;
+      overflow: auto;
+      padding-right: .2rem;
+    }
+    .note-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .6rem;
+      background: var(--white);
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 10px;
+      padding: .65rem .8rem;
+      font-size: .9rem;
+    }
+    body.dark .note-item { background: #1c1f2c; border-color: #2a2d3a; }
+    .note-item button {
+      background: none;
+      border: none;
+      color: #f87171;
+      cursor: pointer;
+      font-size: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -796,6 +856,51 @@
             <input type="range" min="0" max="255" value="220" id="b-slider" oninput="updateColor()" />
           </div>
           <div class="hex-out" id="hex-out">#804FDC</div>
+        </div>
+
+        <!-- Demo 4: Passwort-Generator -->
+        <div class="demo-card">
+          <h3>🔐 JavaScript: Passwort-Generator</h3>
+          <p class="demo-desc">Crypto API + Clipboard API für sichere Passwörter.</p>
+          <div class="pw-opts">
+            <label><input type="checkbox" id="pw-upper" checked /> Großbuchstaben</label>
+            <label><input type="checkbox" id="pw-num" checked /> Zahlen</label>
+            <label><input type="checkbox" id="pw-sym" checked /> Sonderzeichen</label>
+          </div>
+          <div class="demo-row">
+            <span style="font-size:.85rem;min-width:4.5rem;">Länge: <b id="pw-len-label">16</b></span>
+            <input type="range" min="8" max="32" value="16" id="pw-len" style="flex:1;accent-color:var(--primary);" oninput="document.getElementById('pw-len-label').textContent=this.value" />
+          </div>
+          <div class="pw-out" id="pw-out">Klick auf Generieren!</div>
+          <div class="copy-hint" id="copy-hint"></div>
+          <div class="demo-row" style="justify-content:space-between;">
+            <button class="demo-btn" onclick="generatePassword()">Generieren 🔄</button>
+            <button class="demo-btn" style="background:var(--accent);" onclick="copyPassword()">Kopieren 📋</button>
+          </div>
+        </div>
+
+        <!-- Demo 5: Bubble Sort Visualizer -->
+        <div class="demo-card">
+          <h3>📊 Algorithmus: Bubble Sort</h3>
+          <p class="demo-desc">Schritt-für-Schritt-Visualisierung eines Sortieralgorithmus.</p>
+          <div class="sort-bars" id="sort-bars"></div>
+          <div class="sort-meta" id="sort-meta">Bereit.</div>
+          <div class="demo-row">
+            <button class="demo-btn" id="sort-btn" onclick="startSort()">Starten ▶</button>
+            <button class="demo-btn" style="background:#6b7280;" onclick="resetSort()">Neu 🔀</button>
+          </div>
+        </div>
+
+        <!-- Demo 6: LocalStorage Notizen -->
+        <div class="demo-card">
+          <h3>💾 LocalStorage: Notizen</h3>
+          <p class="demo-desc">Notizen lokal speichern, damit sie nach Reload erhalten bleiben.</p>
+          <div class="demo-row">
+            <input class="demo-input" id="note-input" placeholder="Neue Notiz..." maxlength="80" />
+            <button class="demo-btn" onclick="addNote()">+</button>
+          </div>
+          <div class="notes-list" id="notes-list"></div>
+          <button class="demo-btn" style="background:#6b7280;font-size:.8rem;padding:.4rem .8rem;margin-top:.2rem;" onclick="clearNotes()">Alle löschen</button>
         </div>
 
       </div>
@@ -1106,6 +1211,124 @@
       document.getElementById('hex-out').textContent = hex;
     }
     updateColor();
+
+    // ── Demo: Password Generator ─────────────────────────────────────────
+    function generatePassword() {
+      const len = +document.getElementById('pw-len').value;
+      const upper = document.getElementById('pw-upper').checked;
+      const num = document.getElementById('pw-num').checked;
+      const sym = document.getElementById('pw-sym').checked;
+      let chars = 'abcdefghijklmnopqrstuvwxyz';
+      if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      if (num) chars += '0123456789';
+      if (sym) chars += '!@#$%^&*()_+-=[]{};:,.?';
+      const arr = new Uint32Array(len);
+      crypto.getRandomValues(arr);
+      const pw = Array.from(arr, n => chars[n % chars.length]).join('');
+      document.getElementById('pw-out').textContent = pw;
+      document.getElementById('copy-hint').textContent = '';
+    }
+
+    async function copyPassword() {
+      const pw = document.getElementById('pw-out').textContent;
+      if (!pw || pw === 'Klick auf Generieren!') return;
+      try {
+        await navigator.clipboard.writeText(pw);
+        document.getElementById('copy-hint').textContent = 'Passwort kopiert.';
+      } catch {
+        document.getElementById('copy-hint').textContent = 'Kopieren nicht möglich.';
+      }
+    }
+    generatePassword();
+
+    // ── Demo: Bubble Sort Visualizer ─────────────────────────────────────
+    let sortArr = [];
+    let sortRunning = false;
+
+    function renderBars(arr, comparing = [], sorted = []) {
+      const wrap = document.getElementById('sort-bars');
+      wrap.innerHTML = arr.map((val, i) =>
+        `<div class="sort-bar ${comparing.includes(i) ? 'comparing' : ''} ${sorted.includes(i) ? 'sorted' : ''}" style="height:${val * 3}px"></div>`
+      ).join('');
+    }
+
+    function resetSort() {
+      if (sortRunning) return;
+      sortArr = Array.from({ length: 10 }, () => Math.floor(Math.random() * 25) + 8);
+      renderBars(sortArr);
+      document.getElementById('sort-meta').textContent = 'Bereit.';
+    }
+    resetSort();
+
+    async function startSort() {
+      if (sortRunning) return;
+      sortRunning = true;
+      document.getElementById('sort-btn').disabled = true;
+      const arr = [...sortArr];
+      const sorted = [];
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+          renderBars(arr, [j, j + 1], sorted);
+          document.getElementById('sort-meta').textContent = `Vergleiche ${arr[j]} und ${arr[j + 1]}`;
+          await new Promise(r => setTimeout(r, 60));
+          if (arr[j] > arr[j + 1]) {
+            [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+            renderBars(arr, [j, j + 1], sorted);
+            await new Promise(r => setTimeout(r, 60));
+          }
+        }
+        sorted.unshift(arr.length - i - 1);
+      }
+      renderBars(arr, [], arr.map((_, i) => i));
+      document.getElementById('sort-meta').textContent = 'Fertig sortiert.';
+      sortArr = arr;
+      sortRunning = false;
+      document.getElementById('sort-btn').disabled = false;
+    }
+
+    // ── Demo: LocalStorage Notes ─────────────────────────────────────────
+    function renderNotes() {
+      const list = JSON.parse(localStorage.getItem('portfolio-notes') || '[]');
+      const wrap = document.getElementById('notes-list');
+      if (!list.length) {
+        wrap.innerHTML = '<div class="sort-meta">Noch keine Notizen gespeichert.</div>';
+        return;
+      }
+      wrap.innerHTML = list.map((note, i) => `
+        <div class="note-item">
+          <span>${note.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</span>
+          <button onclick="deleteNote(${i})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function addNote() {
+      const input = document.getElementById('note-input');
+      const val = input.value.trim();
+      if (!val) return;
+      const list = JSON.parse(localStorage.getItem('portfolio-notes') || '[]');
+      list.unshift(val);
+      localStorage.setItem('portfolio-notes', JSON.stringify(list.slice(0, 8)));
+      input.value = '';
+      renderNotes();
+      input.focus();
+    }
+
+    function deleteNote(i) {
+      const list = JSON.parse(localStorage.getItem('portfolio-notes') || '[]');
+      list.splice(i, 1);
+      localStorage.setItem('portfolio-notes', JSON.stringify(list));
+      renderNotes();
+    }
+
+    function clearNotes() {
+      localStorage.removeItem('portfolio-notes');
+      renderNotes();
+    }
+
+    const noteInput = document.getElementById('note-input');
+    noteInput && noteInput.addEventListener('keydown', e => { if (e.key === 'Enter') addNote(); });
+    renderNotes();
 
     document.getElementById('btn-clear-logs').addEventListener('click', () => {
       document.getElementById('log-output').innerHTML = '';
