@@ -1,0 +1,195 @@
+<div class="loader" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>
+  
+  <header>
+    <div class="container nav-container">
+      <h1 class="logo"><a href="#">Dominic<span class="accent"></span></a></h1>
+      <nav>
+        <ul class="nav-links" [class.show]="navOpen">
+          <li><a href="#ueber">Über mich</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projekte">Projekte</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+        <div class="burger" (click)="toggleNav()">
+          <span></span><span></span><span></span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-content">
+      <h1 class="hero-title">Ich bin <span class="typing">{{ typingText }}</span></h1>
+      <p class="hero-subtitle">Frontend- & Backend-Entwickler</p>
+      <a href="#ueber" class="hero-button">Mehr erfahren</a>
+    </div>
+  </section>
+
+  <section class="content fade-in" id="ueber">
+    <div class="container ueber-container">
+      <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Dominic" class="profilbild" />
+      <div>
+        <h2>Über mich</h2>
+        <p>Ich bin Dominic Munter, angehender Informatiker im 1. Lehrjahr. Schon jetzt arbeite ich mit Technologien wie Angular, Node.js und modernen Webtools und entwickle mit Leidenschaft Anwendungen, die funktionieren.
+
+        </p>
+      </div>
+    </div>
+  </section>
+  <section class="content fade-in" id="timeline">
+    <div class="container">
+      <h2>Mein Werdegang bei Swisscom</h2>
+      <ul class="timeline">
+        <li>
+          <span class="year">2024</span>
+          <p>Start bei Swisscom als Informatiker im 1. Lehrjahr</p>
+        </li>
+        <li>
+          <span class="year">2024</span>
+          <p>Projekt: Galileo</p>
+        </li>
+        <li>
+          <span class="year">2025</span>
+          <p>Software Entwicklung im SPT-IL Team</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+  
+  <section class="content fade-in" id="skills">
+    <div class="container">
+      <h2>Meine Skills</h2>
+
+      <h3>Frontend</h3>
+      <div class="skill"><span>HTML / CSS</span><div class="bar"><div class="fill" style="--width: 95%"></div></div></div>
+      <div class="skill"><span>JavaScript</span><div class="bar"><div class="fill" style="--width: 80%"></div></div></div>
+      <div class="skill"><span>TypeScript</span><div class="bar"><div class="fill" style="--width: 87%"></div></div></div>
+      <div class="skill"><span>Angular</span><div class="bar"><div class="fill" style="--width: 92%"></div></div></div>
+      <div class="skill"><span>Responsive Design</span><div class="bar"><div class="fill" style="--width: 80%"></div></div></div>
+
+      <h3>Backend</h3>
+      <div class="skill"><span>Node.js</span><div class="bar"><div class="fill" style="--width: 75%"></div></div></div>
+      <div class="skill"><span>Spring Boot</span><div class="bar"><div class="fill" style="--width: 75%"></div></div></div>
+      <div class="skill"><span>REST APIs</span><div class="bar"><div class="fill" style="--width: 89%"></div></div></div>
+      <div class="skill"><span>MySQL</span><div class="bar"><div class="fill" style="--width: 77%"></div></div></div>
+      <div class="skill"><span>Java</span><div class="bar"><div class="fill" style="--width: 70%"></div></div></div>
+
+      <h3>Tools &amp; Allgemeines</h3>
+      <div class="skill"><span>GitLab &amp; GitHub</span><div class="bar"><div class="fill" style="--width: 85%"></div></div></div>
+      <div class="skill"><span>VS Code</span><div class="bar"><div class="fill" style="--width: 85%"></div></div></div>
+      <div class="skill"><span>CI/CD mit GitLab</span><div class="bar"><div class="fill" style="--width: 70%"></div></div></div>
+    </div>
+  </section>
+
+  <section class="content fade-in" id="projekte">
+    <div class="container">
+      <h2>Meine Projekte</h2>
+      <div class="projekte">
+
+        
+
+        
+        <div class="projekt-card">
+          <h3>🚀 First-Steps</h3>
+          <p>Mein Einstieg bei Swisscom. Ich habe erste Web-Projekte umgesetzt und die IT-Welt kennengelernt.</p>
+          <div class="tech-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Git</span>
+            <span class="tag">VS Code</span>
+          </div>
+          <p class="projekt-zeit">📅 2024 · Lehrbeginn</p>
+          <a href="#" target="_blank" rel="noopener" class="projekt-link">Projekt-Link folgt</a>
+        </div>
+  
+        <div class="projekt-card">
+          <h3>📚 Galileo Schulung</h3>
+          <p>Intensives Lernprojekt. Ich habe Angular, Spring Boot und TypeScript von Grund auf gelernt und praktische Mini-Apps gebaut.</p>
+          <div class="tech-tags">
+            <span class="tag">Angular</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Java</span>
+            <span class="tag">Spring Boot</span>
+            <span class="tag">REST APIs</span>
+          </div>
+          <p class="projekt-zeit">📅 Frühjahr 2024</p>
+          <a href="#" target="_blank" rel="noopener" class="projekt-link">Code bald auf GitHub</a>
+        </div>
+  
+      </div>
+    </div>
+  </section>
+
+  
+
+  <section class="content fade-in" id="kontakt">
+    <div class="container">
+      <h2>Kontakt</h2>
+      <form #kontaktForm="ngForm" (ngSubmit)="onSubmit(kontaktForm)">
+        <input type="text" name="name" placeholder="Dein Name" ngModel required />
+        <input type="email" name="email" placeholder="Deine E-Mail" ngModel required />
+        <textarea name="message" placeholder="Deine Nachricht..." ngModel required></textarea>
+        <button type="submit">Senden</button>
+        <p *ngIf="formSent" id="formsent" class="success">✅ Nachricht erfolgreich gesendet!</p>
+      </form>
+      <p *ngIf="successMessage" class="success-toast">{{ successMessage }}</p>
+
+    </div>
+    <div class="container">
+      <h2>Lebenslauf & Motivationsschreiben</h2>
+      <p>Hier kannst du meinen aktuellen Lebenslauf/Motivationsschreiben herunterladen.</p>
+  
+      <a href="assets/CV-Motivatonsschreiben.pptx" download class="cv-button">
+        <span>Jetzt (.pptx) herunterladen</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>© 2026 Dominic Munter</p>
+      <div class="footer-links">
+        <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:dominic@example.com">E-Mail</a>
+      </div>
+    </div>
+  </footer>
+
+  <button id="darkmode-toggle" (click)="toggleDarkMode()">
+    {{ isDarkMode ? '🌞 Lightmode' : '🌙 Darkmode' }}
+  </button>
+  
+  <section class="content" *ngIf="showAdminLogin">
+    <div class="container" id="admin">
+      <h2>Admin-Zugang</h2>
+  
+      <input [(ngModel)]="adminCode" placeholder="Zugangscode" />
+      <button (click)="checkAdmin()" class="adminLoginButton">Zugang prüfen</button>
+  
+      <div *ngIf="adminAccess" class="admin-panel" [ngClass]="isDarkMode ? 'admin-dark' : 'admin-light'">
+        <h3>DEV Console</h3>
+        <p class="admin-anweisung">
+          CMD's:
+          <br>
+          show html 
+          <br>
+          show css 
+          <br>
+          show ts
+        </p>
+
+        <div class="log-output">
+          <p *ngFor="let log of logs">{{ log }}</p>
+        </div>
+  
+        <input [(ngModel)]="adminCommand" (keydown.enter)="handleCommand()" placeholder="> Befehl eingeben..." />
+        <button (click)="logDebug()">Debug Infos</button>
+        <button (click)="clearLogs()">Logs löschen</button>
+      </div>
+    </div>
+  </section>
+  
+  
+  <button class="scroll-top" (click)="scrollToTop()" *ngIf="showScrollTop">⬆️</button>

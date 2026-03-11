@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --primary: #0f62fe;       /* Samsung Blau */
+  --accent: #3c91e6;
+  --bg: #f4f6fa;
+  --text: #1c1c1e;
+  --white: #ffffff;
+  --radius: 18px;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+body.dark {
+  --bg: #0c0c0d;
+  --text: #e5e5e5;
+  --white: #1c1e22;
+}
+
+.card,
+.section,
+input,
+textarea {
+  background-color: var(--white);
+  color: var(--text);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Header */
+header {
+  background-color: var(--white);
+  padding: 1rem 2rem;
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+body.dark header {
+  background-color: rgba(18, 18, 18, 0.9) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow);
+}
+
+.section {
+  padding: 3rem 2rem;
+  margin-bottom: 2rem;
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Darkmode Toggle Button */
+#darkmode-toggle {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  z-index: 10000;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#darkmode-toggle:hover {
+  background: var(--accent);
+  transform: scale(1.05);
+}
+
+/* Karten-Stil */
+.card {
+  background: var(--white);
+  padding: 1.8rem;
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.card:hover {
+  box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+}
+
+.content,
+input,
+textarea,
+button {
+  background-color: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Formularelemente */
+input,
+textarea {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(15, 98, 254, 0.2);
+}
+
+/* Buttons */
+button {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+button:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+
+/* Text-Highlighting */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* Container */
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Extra */
+.shadow-sm {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+.rounded {
+  border-radius: var(--radius);
+}
