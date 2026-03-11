@@ -12,6 +12,7 @@ import emailjs from 'emailjs-com';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  title = 'Bewerbungs-Seite';
   isDarkMode = false;
   navOpen = false;
   formSent = false;
